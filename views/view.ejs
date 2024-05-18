@@ -1,0 +1,35 @@
+<%- include("partials/header.ejs") %>
+<div class="lgt-green-bg p-4 p-md-5 mb-4 rounded-5 mx-2 text-body-emphasis d-flex flex-column align-items-center">
+    <h1 class="display-4 fst-italic heading-text"><%= locals.blogPost.title %></h1>
+    <p class="lead my-3 main-text align-self-start"><em><%= locals.blogPost.date %></em></p>
+    <p class="lead my-3 main-text"><%= locals.blogPost.bodyText %></p>
+    <div class="post-button-list pt-3">
+        <a href="/edit?id=<%= locals.blogPost.id %>"><button class="preview-button">Edit</button></a>
+        <form action="/delete" method="post">
+            <input type="text" name="id" hidden value="<%= locals.blogPost.id %>">
+            <input class="preview-button" type="submit" name="delete" value="Delete">
+        </form>
+        <form action="/like" method="post">
+            <input type="text" name="id" hidden value="<%= locals.blogPost.id %>">
+            <input type="text" name="view" hidden value="true">
+            <input class="preview-button" type="submit" name="like" value="Like">
+        </form>
+        <p class="main-text mb-0 align-self-center">👍 <%= locals.blogPost.likes %></p>
+    </div>
+</div>
+<div class="drk-green-bg p-4 p-md-5 mb-4 rounded-5 mx-2 text-body-emphasis d-flex flex-column align-items-center">
+    <h2 class="display-4 fst-italic heading-text align-self-start">Comments</h2>
+    <% locals.blogPost.comments.forEach(c => { %>
+        <div class="rounded lgt-green-bg m-2 align-self-start">
+            <p class="main-text like text py-1 px-3"><%= c %></p>
+        </div>
+    <% }) %>
+    <form class="w-100 m-2" action="/comment" method="post">
+        <input type="text" name="id" hidden value="<%= locals.blogPost.id %>">
+        <textarea class="form-control dark-form form-text" required name="comment" rows="3" placeholder="Leave a comment..." style="resize: none;"></textarea>
+        <div class="text-end m-2">
+            <input class="preview-button mt-2" type="submit" value= "Comment" style="background-color: #4F6F52;">
+        </div>
+    </form>
+</div>
+<%- include("partials/footer.ejs") %>

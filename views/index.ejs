@@ -1,0 +1,41 @@
+<%- include("partials/header.ejs") %>
+
+<div class="flex-container min-vh-100">
+    <% if(locals.blogPosts.length !== 0) { %>
+        <% locals.blogPosts.forEach(p => { %>
+    <div class="lgt-green-bg p-4 p-md-5 mb-4 rounded mx-2 text-body-emphasis d-flex">
+        <div class="col-lg-8 px-0 d-flex flex-column justify-content-between">
+            <h1 class="display-4 fst-italic heading-text"><%= p.title %></h1>
+            <p class="lead my-3 main-text"><%= p.partialText %></p>
+            <p class="lead my-3 main-text"><em><%= p.date %></em></p>
+            <p class="lead mb-0"><a href="/view?id=<%= p.id %>" class="fw-bold main-text">Continue reading...</a></p>
+            <div class="post-button-list pt-3">
+                <a href="/edit?id=<%= p.id %>"><button class="preview-button">Edit</button></a>
+                <form action="/delete" method="post">
+                    <input type="text" name="id" hidden value="<%= p.id %>">
+                    <input class="preview-button" type="submit" name="delete" value="Delete">
+                </form>
+                <form action="/like" method="post">
+                    <input type="text" name="id" hidden value="<%= p.id %>">
+                    <input class="preview-button" type="submit" name="like" value="Like">
+                </form>
+                <p class="main-text mb-0 align-self-center">👍 <%= p.likes %></p>
+            </div>
+        </div>
+        <% if(p.comments.length !== 0) { %>
+        <div class="col-lg-4 px-0 card-comment-section drk-green-bg rounded">
+            <% p.comments.forEach(c => { %>
+                <div class="rounded lgt-green-bg m-2">
+                    <p class="main-text like text py-1 px-3"><%= c %></p>
+                </div>
+            <% }) %>
+        </div>
+        <% } %>
+    </div>
+         <% })
+    } else { %>
+        <h1 class="display-4 fst-italic heading-text text-center cols-xs-1">Nothing to see here...</h1>
+    <% } %>
+</div>
+
+<%- include("partials/footer.ejs") %>
